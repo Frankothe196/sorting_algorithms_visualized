@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual App</title>
+    <link rel="stylesheet" href="../static/css/index.css">
+</head>
+<body>
+    <div class="header">
+        <form method="post">
+            <select name="algorithm" id="">
+                <option value="Bubble Sort">Bubble Sort</option>
+                <option value="Bubble Sort">Selection Sort</option>
+                <option value="Bubble Sort">Quick Sort</option>
+                <option value="Bubble Sort">Merge Sort</option>
+            </select>
+            <input type="number" name="count" value={{count}}>
+            <input type="submit">
+        </form>
+    </div>
+    <h1>{{func()[1]}}</h1>
+    <div class="table">
+        {% for i in func()[0] %}
+            <div class="item" style="--item-height: {{i/func()[1]*100}}%">
+                {{i}}
+            </div>
+        {% endfor %}
+    </div>
+<script>
+    var data = `{{func()}}`
+    console.log(data)
+</script>
+</body>
+</html>
