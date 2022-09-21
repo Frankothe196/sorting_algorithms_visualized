@@ -20,17 +20,24 @@
             <input type="submit">
         </form>
     </div>
-    <h1>{{func()[1]}}</h1>
+    <h1>{{func[1]}}</h1>
     <div class="table">
-        {% for i in func()[0] %}
-            <div class="item" style="--item-height: {{i/func()[1]*100}}%">
+        {% for i in func[0] %}
+            <div class="item" style="--item-height: {{i/func[1]*100}}%">
                 {{i}}
             </div>
         {% endfor %}
     </div>
 <script>
-    var data = `{{func()}}`
+    var data = `{{func[0]}}`
     console.log(data)
+    data[0]=20
+    setTimeout(
+        ()=>{
+           
+            console.log(data)
+        }
+    ,2000)
 </script>
 </body>
 </html>
