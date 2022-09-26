@@ -9,18 +9,24 @@
 </head>
 <body>
     <div class="header">
-        <form method="post">
-            <select name="algorithm" id="">
-                <option value="Bubble Sort">Bubble Sort</option>
-                <option value="Bubble Sort">Selection Sort</option>
-                <option value="Bubble Sort">Quick Sort</option>
-                <option value="Bubble Sort">Merge Sort</option>
-            </select>
-            <input type="number" name="count" value={{count}}>
-            <input type="submit">
-        </form>
+        <div class="hero">
+            <h1>Sorting Algorithms</h1>
+            <p>By default we will begin with a selection sort and generate a random array of 20 items to be sorted</p>
+            <form method="post">
+                <select name="algorithm" id="">
+                    <option value="Bubble Sort">Selection Sort</option>
+                    <option value="Bubble Sort">Bubble Sort</option>
+                    <option value="Bubble Sort">Quick Sort</option>
+                    <option value="Bubble Sort">Merge Sort</option>
+                </select>
+                <input type="number" name="count" value={{count}}>
+                <input type="submit">
+            </form>
+        </div>
     </div>
-    <h1>{{func[1]}}</h1>
+    <h2>After sorting</h2>
+    <div class="table" id="table"></div>
+    <h2>Before</h2>
     <div class="table">
         {% for i in func[0] %}
             <div class="item" style="--item-height: {{i/func[1]*100}}%">
@@ -28,12 +34,11 @@
             </div>
         {% endfor %}
     </div>
-
     
-    <div class="table" id="table">
-    </div>
 <script>
 
+//Let us select our table
+const table = document.getElementById('table')
 //Lets get our data from python
 let max = `{{func[1]}}` // largest number in array
 let data = `{{func[0]}}` // Full array
@@ -71,21 +76,30 @@ let algo = {
                     // console.log(current, ' iter: ',iter, 'data: ',data[i])
                 }
             }
-            //We have not iterated through all items for a target
+
+            //We have now iterated through all items for a target
             if(finalMin!=undefined){
                 // console.log( data[finalMinIndex]," : ",data[index] )
                 data[finalMinIndex]=data[iter]
                 data[iter]=finalMin
-                let newData=data
+                // console.log(data)
 
+                //Code below will update the table
+                let html =''
+                for(let iter1=0; iter1<data.length; iter1++){
+                    html=html+`
+                    <div class="item ${iter1==iter?'active':''} ${iter1==finalMinIndex?'touch':''}" style="--item-height: ${data[iter1]/max*100}%">
+                        ${data[iter1]}
+                        </div>
+                        `
+                }
+                //set timeout
+                setTimeout(() => {
+                    table.innerHTML=html
+                }, 200*iter);
 
-                setTimeout(function() {
-                    function test (newData){
-                        console.log(newData)
-                    }
-                    test(data)
-                    updateTable(iter,data);
-                }, 200 * iter);
+                
+                // updateTable(i,data)
 
             }
             
@@ -107,8 +121,8 @@ function updateTable(i,data) {
             ${data[iter1]}
             </div>
             `
-        }
-        table.innerHTML=html
+    }
+    table.innerHTML=html
         
 }
 

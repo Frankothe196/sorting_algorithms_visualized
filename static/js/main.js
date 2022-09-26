@@ -54,13 +54,14 @@ const algo = {
                     }
 
                 }
-                
             }
+
             if(finalMin!=undefined){
                 console.log( data[finalMinIndex]," : ",data[index] )
                 data[finalMinIndex]=data[iter]
                 data[iter]=finalMin
             }
+            
             console.log('run'+iter)
             setTimeout(() => {
                 updateTable(data)
