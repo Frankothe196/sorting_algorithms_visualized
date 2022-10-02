@@ -11,10 +11,12 @@ def main():
     global data
     if(request.method=="GET"):
         generate_arr(20)
-        return render_template("index.html", algorithm='algorithm', func=data)
+        return render_template("index.html", algorithm='algorithm', func=data, count=20, type='selection')
     elif(request.method=="POST"):
-        generate_arr(int(request.form.get('count')))
-        return render_template("index.html", algorithm='algorithm', func=data)
+        type = request.form.get('algorithm')
+        count = int(request.form.get('count'))
+        generate_arr(count)
+        return render_template("index.html", algorithm='algorithm', func=data, type=type, count=count)
 
 def generate_arr(len):
     global data

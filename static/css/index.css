@@ -36,6 +36,7 @@ h2{
 .table .item.touch{
     background-color: red;
 }
+
 .header{
     position: relative;
     display: flex;
