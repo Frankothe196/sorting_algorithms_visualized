@@ -154,19 +154,52 @@ let algo = {
         //Start of Merge sort
         mergeSort: ()=>{
             var length=data.length
+            var lStart,lEnd,rStart,rEnd
 
             if(length%2){
                 lStart=parseInt(length/2-length/2)
                 lEnd=parseInt(length/2)
-                console.log("Left; start: ", lStart, " end: ", lEnd)
-                
+            
                 rStart=parseInt((length/2) +1)
                 rEnd=parseInt(length/2+length/2)
+
+                console.log("Left; start: ", lStart, " end: ", lEnd)
                 console.log("Right; start: ", rStart, " end: ", rEnd)
             }else{
-                start=0
-                end=length/2
-                console.log('divide by and keep one side by half: '+parseInt(length/2))
+                lStart=0
+                lEnd=length/2
+
+                rStart=length/2+1
+                rEnd=length/2
+                
+                console.log("Left; start: ", lStart, " end: ", lEnd)
+                console.log("Right; start: ", rStart, " end: ", rEnd)
+            }
+
+            function left(arr,start,end){
+                if(arr.length==2){
+                    console.log('end')
+                    return(sort(arr))
+                }else if(arr.length==1){
+                    console.log('test')
+                }else if(arr.length>2){
+                    
+                    left(arr,start,arr.length)
+                    right()
+                }
+                return
+            }
+
+            function right(arr,start,end){
+                if(arr.length==2){
+                    console.log('end')
+                    return(sort(arr))
+                }
+
+            }
+
+            function sort(){
+
             }
         }
         //EOF Merge sort
