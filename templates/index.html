@@ -9,7 +9,6 @@
 </head>
 <body>
     <div class="header">
-<<<<<<< Updated upstream
         <div class="hero">
             <h1>Sorting Algorithms</h1>
             <p>By default we will begin with a selection sort and generate a random array of 20 items to be sorted</p>
@@ -18,25 +17,13 @@
                     <option value="{{type}}">{{type}}</option>
                     <option value="selection">Selection Sort</option>
                     <option value="bubble">Bubble Sort</option>
-                    <option value="Bubble Sort">Quick Sort</option>
+                    <option value="quick">Quick Sort</option>
                     <option value="merge">Merge Sort</option>
                 </select>
                 <input type="number" name="count" value="{{count}}">
                 <input type="submit" value="Start">
             </form>
         </div>
-=======
-        <form method="post">
-            <select name="algorithm" id="">
-                <option value="BSort">Bubble Sort</option>
-                <option value="sSort">Selection Sort</option>
-                <option value="Bubble Sort">Quick Sort</option>
-                <option value="Bubble Sort">Merge Sort</option>
-            </select>
-            <input type="number" name="count" value={{count}}>
-            <input type="submit">
-        </form>
->>>>>>> Stashed changes
     </div>
     <h2>After sorting</h2>
     <div class="table" id="table"></div>
@@ -50,124 +37,82 @@
     </div>
     
 <script>
-<<<<<<< Updated upstream
-=======
-    var max = `{{func[1]}}`
-    max=parseInt(max)
-    var data = `{{func[0]}}`
-    data=JSON.parse(data)
-
     // We might need loops to pause on iterations
     const wait = (ms) =>{ new Promise( resolve => setTimeout(resolve,ms))}
-    // lets store all the algos in a dict
-    const algo = {
-        //Selection sort
-        selectionSort: async (data) => {
+    
+    //Let us select our table
+    const table = document.getElementById('table')
+    //Lets get our data from python
+    let max = `{{func[1]}}` // largest number in array
+    let data = `{{func[0]}}` // Full array
 
-            var index = 0            
-            var finalMinIndex
-            var finalMin
-            var currMin
-            var length = data.length
-            var sorted = false
+    //Parse our data into usable forms
+    max=parseInt(max)
+    data=JSON.parse(data)
+
+
+    // All algorithms will stored within algo variable dict
+    let algo = {
+        //Start of Selection sort
+        selectionSort: (data)=>{
+            let index=0
+            let finalMinIndex
+            let finalMin
+            let currMin
+            let length = data.length
             
-            
-            for(var iter=0; iter<data.length; iter++){
-                
+            // We might need loops to pause on iterations
+            //loop through each item first
+            for (let iter=0; iter<length; iter++) {
+                let current = data[iter]
                 finalMin=undefined
                 currMin=undefined
                 index++
-                for(var i=index; i<length-1; i++){
-                    
-                    if(data[index]>data[i]){
-                        console.log(data[i])
-                        currMin=data[i]    
-                        if(finalMin==undefined){
+                // compare item in current iteration with all items to its right
+                for(let i=index; i<length; i++){
+                    if(current>data[i]){
+                        currMin=data[i]
+                        if(finalMin==undefined || finalMin>currMin){
                             finalMin=currMin
                             finalMinIndex=i
-                        }else if(currMin<finalMin){
-                            finalMin=currMin
-                            finalMinIndex=i
-                            console.log(finalMin, ' final and index ' , finalMinIndex)
                         }
->>>>>>> Stashed changes
-
-//Let us select our table
-const table = document.getElementById('table')
-//Lets get our data from python
-let max = `{{func[1]}}` // largest number in array
-let data = `{{func[0]}}` // Full array
-
-//Parse our data into usable forms
-max=parseInt(max)
-data=JSON.parse(data)
-
-
-// All algorithms will stored within algo variable dict
-let algo = {
-    //Start of Selection sort
-    selectionSort: (data)=>{
-        let index=0
-        let finalMinIndex
-        let finalMin
-        let currMin
-        let length = data.length
-        
-        // We might need loops to pause on iterations
-        //loop through each item first
-        for (let iter=0; iter<length; iter++) {
-            let current = data[iter]
-            finalMin=undefined
-            currMin=undefined
-            index++
-            // compare item in current iteration with all items to its right
-            for(let i=index; i<length; i++){
-                if(current>data[i]){
-                    currMin=data[i]
-                    if(finalMin==undefined || finalMin>currMin){
-                        finalMin=currMin
-                        finalMinIndex=i
+                        // console.log(current, ' iter: ',iter, 'data: ',data[i])
                     }
-                    // console.log(current, ' iter: ',iter, 'data: ',data[i])
                 }
-            }
 
-            //We have now iterated through all items for a target
-            if(finalMin!=undefined){
-                // console.log( data[finalMinIndex]," : ",data[index] )
-                data[finalMinIndex]=data[iter]
-                data[iter]=finalMin
-                // console.log(data)
+                //We have now iterated through all items for a target
+                if(finalMin!=undefined){
+                    // console.log( data[finalMinIndex]," : ",data[index] )
+                    data[finalMinIndex]=data[iter]
+                    data[iter]=finalMin
+                    // console.log(data)
 
-                //Code below will update the table
-                let html =''
-                for(let iter1=0; iter1<data.length; iter1++){
-                    html=html+`
-                    <div class="item ${iter1==iter?'active':''} ${iter1==finalMinIndex?'touch':''}" style="--item-height: ${data[iter1]/max*100}%">
-                        ${data[iter1]}
-                        </div>
-                        `
+                    //Code below will update the table
+                    let html =''
+                    for(let iter1=0; iter1<data.length; iter1++){
+                        html=html+`
+                        <div class="item ${iter1==iter?'active':''} ${iter1==finalMinIndex?'touch':''}" style="--item-height: ${data[iter1]/max*100}%">
+                            ${data[iter1]}
+                            </div>
+                            `
+                    }
+                    //set timeout
+                    setTimeout(() => {
+                        table.innerHTML=html
+                    }, 200*iter);
+
+                    //lets add a pause os we can let the user intface notice the iterations
+                    setTimeout(() => {
+                        updateTable(data)  
+                    }, 2000);
+                    
+                    // updateTable(i,data)
+
                 }
-<<<<<<< Updated upstream
-                //set timeout
-                setTimeout(() => {
-                    table.innerHTML=html
-                }, 200*iter);
-
-=======
-                //lets add a pause os we can let the user intface notice the iterations
-                setTimeout(() => {
-                    updateTable(data)  
-                }, 2000);
->>>>>>> Stashed changes
                 
-                // updateTable(i,data)
-
+                //lets update the data on every iteration
             }
-            
-            //lets update the data on every iteration
-        }
-    },
+        },
         //EOF Selection Sort
 
         //Start of Bubble Sort
@@ -210,87 +155,104 @@ let algo = {
                 }
             }
         },
-<<<<<<< Updated upstream
         // EOF Bubble sort
 
         //Start of Merge sort
-        mergeSort: ()=>{
-            var length=data.length
-            var lStart,lEnd,rStart,rEnd
-
-            if(length%2){
-                lStart=parseInt(length/2-length/2)
-                lEnd=parseInt(length/2)
+        mergeSort: (data) => {
+            var step=0
+            var unsorted_list = data
             
-                rStart=parseInt((length/2) +1)
-                rEnd=parseInt(length/2+length/2)
+            // Divide and conquer
 
-                console.log("Left; start: ", lStart, " end: ", lEnd)
-                console.log("Right; start: ", rStart, " end: ", rEnd)
-            }else{
-                lStart=0
-                lEnd=length/2
+            //Lets use a self calling function to divide the array into subarrays
+            function divide(array, state) {
+                var left_arr, mid, right_arr;
+                left_arr = [];
+                right_arr = [];
+                // when we parse it will always round off to the value to the lower decimal so when array length isFinite
+                // odd the left side will be n-1 and right n
+                mid = parseInt(array.length / 2);
+                left_arr = array.slice(0, mid);
+                right_arr = array.slice(mid, array.length);
 
-                rStart=length/2+1
-                rEnd=length/2
-                
-                console.log("Left; start: ", lStart, " end: ", lEnd)
-                console.log("Right; start: ", rStart, " end: ", rEnd)
-            }
-
-            function left(arr,start,end){
-                if(arr.length==2){
-                    console.log('end')
-                    return(sort(arr))
-                }else if(arr.length==1){
-                    console.log('test')
-                }else if(arr.length>2){
-                    
-                    left(arr,start,arr.length)
-                    right()
-                }
-                return
-            }
-
-            function right(arr,start,end){
-                if(arr.length==2){
-                    console.log('end')
-                    return(sort(arr))
+                step++
+                if (array.length > 2) {
+                    divide(left_arr, "left");
+                    divide(right_arr, "right");
                 }
 
+                merge(array, left_arr, right_arr);
             }
 
-            function sort(){
+            function merge(array, left_arr, right_arr) {
+                var x, y, z;
 
-            }
-        }
-        //EOF Merge sort
-        
-=======
-        //EOF Selection Sort
+                if (left_arr.length <= 2 && right_arr.length <= 2) {
+                    console.log("Divide is now at single digits");
+                }
 
-        //Bubble Sort
-        bubbleSort: async (data) => {
-            var index=0
-            var length=data.length
-            var swapped=false;
+                console.log(`Conquer left sub array: ${left_arr}, with right sub array: ${right_arr}`);
+                x = y = z = 0;
 
-            while(swapped==true){
-                for(var i=index; i<length; i++){
-                    var left=i
-                    var right=i+1
-                    if(data[left]>data[right]){
-                        let temp=data[left]
-                        data[left]=data[right]
-                        data[right]=temp
-                        swapped=true
+                while (y < left_arr.length && z < right_arr.length) {
+                    if (left_arr[y] < right_arr[z]) {
+                    array[x] = left_arr[y];
+                    y += 1;
+                    } else {
+                    array[x] = right_arr[z];
+                    z += 1;
                     }
+
+                    x += 1;
                 }
+
+                while (y < left_arr.length) {
+                    array[x] = left_arr[y];
+                    x += 1;
+                    y += 1;
+                }
+
+                while (z < right_arr.length) {
+                    array[x] = right_arr[z];
+                    x += 1;
+                    z += 1;
+                }
+
+                console.log("test ", step)
+
+                //Code below will update the table
+                let html =''
+                for(let iter=0; iter<unsorted_list.length; iter++){
+                    html=html+`
+                    <div class="item" style="--item-height: ${unsorted_list[iter]/max*100}%">
+                        ${unsorted_list[iter]}
+                    </div>
+                    `
+                    //set timeout
+                }
+                setTimeout(() => {
+                    table.innerHTML=html
+                }, 60*step);
+
             }
 
-            console.log(data)
-        },
->>>>>>> Stashed changes
+            function main() {
+                console.log(`start merge sort on ${unsorted_list}`);
+                divide(unsorted_list, "start");
+                console.log("");
+                console.log(`done sorting: ${unsorted_list}`);
+            }
+
+            main();
+
+        },  
+        //EOF Merge sort
+
+        //Start of Quick Sort
+        quickSort: ()=>{
+
+        }
+        //EOF Quick Sort
     }
     //EOF algo
 
@@ -321,7 +283,12 @@ function startAlgo(type){
     else if(type=='merge')
     {
         algo.mergeSort(data)
+    }    
+    else if(type=='quick')
+    {
+        algo.quickSort(data)
     }
+
 
 }
 
