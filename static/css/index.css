@@ -33,6 +33,23 @@ h2{
     background-color: green;
 }
 
+.table .item.leftActive{
+    background-color: greenyellow;
+}
+
+.table .item.rightActive{
+    background-color: teal;
+}
+
+.table .item.indexActive{
+    background-color: gold;
+}
+
+
+.table .item.inActive{
+    background-color: whitesmoke;
+}
+
 .table .item.touch{
     background-color: red;
 }
