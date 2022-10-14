@@ -249,7 +249,43 @@
         //EOF Merge sort
 
         //Start of Quick Sort
-        quickSort: ()=>{
+        quickSort: (data)=>{
+            var unsorted_list;
+            unsorted_list = [14, 2, 7, 9, 17, 16, 11, 7, 3, 8, 15, 0, 1, 0, 1, 12, 0, 6, 12, 13];
+
+            function quick_sort(array, low, high) {
+            var left, pivot, right;
+            pivot = high;
+            left = 0;
+            right = high - 1;
+
+            while (left <= right) {
+                if (array[left] <= array[pivot]) {
+                left += 1;
+                } else {
+                if (array[right] >= array[pivot]) {
+                    right -= 1;
+                } else {
+                    [array[left], array[right]] = [array[right], array[left]];
+                }
+                }
+            }
+
+            [array[left], array[pivot]] = [array[pivot], array[left]];
+
+            if (low < high) {
+                quick_sort(array, low, left - 1);
+                quick_sort(array, left + 1, array.length - 1);
+            }
+            }
+
+            function main() {
+            console.log(`start sort: ${unsorted_list} of length ${unsorted_list.length}`);
+            quick_sort(unsorted_list, 0, unsorted_list.length - 1);
+            console.log(unsorted_list);
+            }
+
+            main();
 
         }
         //EOF Quick Sort
