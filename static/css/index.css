@@ -29,6 +29,10 @@ h2{
     border: 1px solid black;
 }
 
+.table .item.swap{
+    background-color: red;
+}
+
 .table .item.active{
     background-color: green;
 }

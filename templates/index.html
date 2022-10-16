@@ -165,36 +165,51 @@
             // Divide and conquer
 
             //Lets use a self calling function to divide the array into subarrays
-            function divide(array, state) {
-                var left_arr, mid, right_arr;
-                left_arr = [];
-                right_arr = [];
+            function divide(array, state) {   
                 // when we parse it will always round off to the value to the lower decimal so when array length isFinite
                 // odd the left side will be n-1 and right n
-                mid = parseInt(array.length / 2);
-                left_arr = array.slice(0, mid);
-                right_arr = array.slice(mid, array.length);
-
+                var mid = parseInt(array.length / 2);
+                // Left Sub division
+                var left_arr = array.slice(0, mid);
+                // right sub division
+                var right_arr = array.slice(mid, array.length);
+                
+                // Lets not merge until we have individual items in the array. one side may be undefined
+                console.log(array)
                 step++
+
+                //Code below will update the table
+                let html =''
+                for(let iter=0; iter<array.length; iter++){
+                    html=html+`
+                    <div class="item ${iter<=mid?'leftActive':''} ${iter>=mid?'inActive':''}" style="--item-height: ${array[iter]/max*100}%">
+                        ${array[iter]}
+                    </div>
+                    `
+                    //set timeout
+                }
+                setTimeout(() => {
+                    table.innerHTML=html
+                }, 1000*step);
+
                 if (array.length > 2) {
                     divide(left_arr, "left");
                     divide(right_arr, "right");
                 }
 
-                merge(array, left_arr, right_arr);
-            }
 
-            function merge(array, left_arr, right_arr) {
-                var x, y, z;
+
+                //Lets merge since length is less than 2
+                var x = y = z = 0;
 
                 if (left_arr.length <= 2 && right_arr.length <= 2) {
                     console.log("Divide is now at single digits");
                 }
 
                 console.log(`Conquer left sub array: ${left_arr}, with right sub array: ${right_arr}`);
-                x = y = z = 0;
 
                 while (y < left_arr.length && z < right_arr.length) {
+    
                     if (left_arr[y] < right_arr[z]) {
                     array[x] = left_arr[y];
                     y += 1;
@@ -202,7 +217,6 @@
                     array[x] = right_arr[z];
                     z += 1;
                     }
-
                     x += 1;
                 }
 
@@ -218,26 +232,14 @@
                     z += 1;
                 }
 
-                //Code below will update the table
-                let html =''
-                for(let iter=0; iter<unsorted_list.length; iter++){
-                    html=html+`
-                    <div class="item" style="--item-height: ${unsorted_list[iter]/max*100}%">
-                        ${unsorted_list[iter]}
-                    </div>
-                    `
-                    //set timeout
-                }
-                setTimeout(() => {
-                    table.innerHTML=html
-                }, 60*step);
-
             }
+
 
             console.log(`start merge sort on ${unsorted_list}`);
             divide(unsorted_list, "start");
             console.log("");
             console.log(`done sorting: ${unsorted_list}`);
+            console.log(`Steps: ${unsorted_list}`);
 
         },  
         //EOF Merge sort
@@ -295,21 +297,7 @@
                         else
                         {
                             [array[left], array[right]] = [array[right], array[left]];
-                            step++
-                            //Code below will update the table
-                            let html =''
-                            for(let iter=0; iter<unsorted_list.length; iter++){
-                                html=html+`
-                                <div class="item ${iter==low+1?'pivot':''} ${iter==left?'indexActive':''} ${iter<low+1?'leftActive':''}  ${iter>low+1?'rightActive':''} " style="--item-height: ${unsorted_list[iter]/max*100}%">
-                                    ${unsorted_list[iter]}
-                                </div>
-                                `
-                                //set timeout
-                            }
-                            setTimeout(() => {
-                                table.innerHTML=html
-                            }, 60*step);
-                            }
+                        }
                     
 
 
