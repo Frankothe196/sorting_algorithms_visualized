@@ -182,7 +182,7 @@
                 let html =''
                 for(let iter=0; iter<array.length; iter++){
                     html=html+`
-                    <div class="item ${iter<=mid?'leftActive':''} ${iter>=mid?'inActive':''}" style="--item-height: ${array[iter]/max*100}%">
+                    <div class="item ${iter<=mid?'leftActive':''} ${iter>=mid?'rightActive':''}" style="--item-height: ${array[iter]/max*100}%">
                         ${array[iter]}
                     </div>
                     `
@@ -237,6 +237,19 @@
 
             console.log(`start merge sort on ${unsorted_list}`);
             divide(unsorted_list, "start");
+            let html =''
+                for(let iter=0; iter<unsorted_list.length; iter++){
+                    html=html+`
+                    <div class="item" style="--item-height: ${unsorted_list[iter]/max*100}%">
+                        ${unsorted_list[iter]}
+                    </div>
+                    `
+                    //set timeout
+                }
+                setTimeout(() => {
+                    table.innerHTML=html
+                }, 1000*step);
+
             console.log("");
             console.log(`done sorting: ${unsorted_list}`);
             console.log(`Steps: ${unsorted_list}`);
