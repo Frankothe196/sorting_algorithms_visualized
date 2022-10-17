@@ -33,8 +33,17 @@ h2{
     background-color: red;
 }
 
+
+.table .item.complete{
+    background-color: green;
+}
+
 .table .item.active{
     background-color: green;
+}
+
+.table .item.pivotActive{
+    background-color: red !important;
 }
 
 .table .item.leftActive{

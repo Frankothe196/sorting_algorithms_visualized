@@ -280,7 +280,7 @@
                             let html =''
                             for(let iter=0; iter<unsorted_list.length; iter++){
                                 html=html+`
-                                <div class="item ${iter==low+1?'pivot':''} ${iter>high?'inActive':''} ${iter==left?'indexActive':''} ${iter<low+1?'leftActive':''}  ${iter>low+1?'rightActive':''} " style="--item-height: ${unsorted_list[iter]/max*100}%">
+                                <div class="item ${iter==high?'pivotActive':''} ${iter>high?'inActive':''} ${iter==left||iter==right?'indexActive':''} ${iter<low+1?'leftActive':''}  ${iter>low+1?'rightActive':''} " style="--item-height: ${unsorted_list[iter]/max*100}%">
                                     ${unsorted_list[iter]}
                                 </div>
                                 `
@@ -297,7 +297,7 @@
                             let html =''
                             for(let iter=0; iter<unsorted_list.length; iter++){
                                 html=html+`
-                                <div class="item ${iter==low+1?'pivot':''} ${iter==left?'indexActive':''} ${iter<low+1?'leftActive':''}  ${iter>low+1?'rightActive':''} " style="--item-height: ${unsorted_list[iter]/max*100}%">
+                                <div class="item ${iter==high?'pivotActive':''} ${iter==left||iter==right?'indexActive':''} ${iter<low+1?'leftActive':''}  ${iter>low+1?'rightActive':''} " style="--item-height: ${unsorted_list[iter]/max*100}%">
                                     ${unsorted_list[iter]}
                                 </div>
                                 `
@@ -317,9 +317,10 @@
                 }
 
                 [array[left], array[high]] = [array[high], array[left]];
-
-                quick_sort(array, 0, left - 1);
-                quick_sort(array, left + 1, high);
+                if(low<high){
+                    quick_sort(array, 0, left - 1);
+                    quick_sort(array, left + 1, high);
+                }
             }
             }
             
