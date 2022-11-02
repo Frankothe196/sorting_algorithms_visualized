@@ -138,20 +138,6 @@
                         swapped=true
                     }
 
-                    //Code below will update the table
-                    let html =''
-                    for(let iter=0; iter<data.length; iter++){
-                        html=html+`
-                        <div class="item ${iter==left?'active':''}  ${iter==right?'touch':''}" style="--item-height: ${data[iter]/max*100}%">
-                            ${data[iter]}
-                        </div>
-                        `
-                        //set timeout
-                    }
-                    setTimeout(() => {
-                        table.innerHTML=html
-                    }, 60*step);
-
                 }
             }
         },
@@ -160,29 +146,79 @@
         //Start of Merge sort
         mergeSort: (data) => {
             var step=0
-            var unsorted_list = data
-            
+            var unsorted_list=data
             // Divide and conquer
 
             //Lets use a self calling function to divide the array into subarrays
-            function divide(array, state) {   
+            function mergeSort(array, left_index, right_index) {   
+
+                if(left_index>=right_index){
+                    return
+                }
+                
                 // when we parse it will always round off to the value to the lower decimal so when array length isFinite
                 // odd the left side will be n-1 and right n
-                var mid = parseInt(array.length / 2);
-                // Left Sub division
-                var left_arr = array.slice(0, mid);
-                // right sub division
-                var right_arr = array.slice(mid, array.length);
+                var mid = parseInt((left_index + right_index) / 2);
+                console.log(`left_index ${left_index} right_index ${right_index}`)
                 
-                // Lets not merge until we have individual items in the array. one side may be undefined
-                console.log(array)
+                // repeat mergesort for the two sub arrays
                 step++
+                mergeSort(array, left_index, mid)  
+                mergeSort(array, mid + 1, right_index)  
 
-                //Code below will update the table
-                let html =''
+                
+                // Left Sub division
+                var left_arr = array.slice(left_index, mid+1);
+                // right sub division
+                var right_arr = array.slice(mid+1, right_index+1);
+                
+                // Create indexes to traverse sub arrays
+                var left_arr_index = 0  
+                var right_arr_index = 0  
+
+                // Lets set the final sort index to be used in each iteration
+                var final_index = left_index  
+
+                // Lets not merge until we have individual items in the array. one side may be undefined
+                // console.log(array)
+              
+                // Note that in some cases the left sub array will be shorter
+                while(left_arr_index < left_arr.length && right_arr_index < right_arr.length){
+
+                    // Lets start sorting elements in the two sub arrays
+                    
+                    // If item in one array is smaller lets append that item and move its counter
+                    if(left_arr[left_arr_index] <= right_arr[right_arr_index]){
+                        
+                        array[final_index] = left_arr[left_arr_index]  
+                        left_arr_index += 1  
+                    }
+                    else{
+                        array[final_index] = right_arr[right_arr_index]  
+                        right_arr_index += 1
+                    }  
+                    // Move final pointer over
+                    final_index += 1  
+                }  
+
+                // Due to the conditional statement above not all items will be appended in the final array.
+                // Lets add the left over items below
+                while(left_arr_index < left_arr.length){
+                    array[final_index] = left_arr[left_arr_index]  
+                    left_arr_index += 1  
+                    final_index += 1  
+                }  
+            
+                while(right_arr_index < right_arr.length){
+                    array[final_index] = right_arr[right_arr_index]  
+                    right_arr_index += 1  
+                    final_index += 1  
+                }  
+                var html=''
+                step++
                 for(let iter=0; iter<array.length; iter++){
                     html=html+`
-                    <div class="item ${iter<=mid?'leftActive':''} ${iter>=mid?'rightActive':''}" style="--item-height: ${array[iter]/max*100}%">
+                    <div class="item ${iter>=left_index&&iter<=mid?'active':''} ${iter<=right_index&&iter>=mid?'active':''}" style="--item-height: ${array[iter]/max*100}%">
                         ${array[iter]}
                     </div>
                     `
@@ -190,70 +226,31 @@
                 }
                 setTimeout(() => {
                     table.innerHTML=html
-                }, 1000*step);
-
-                if (array.length > 2) {
-                    divide(left_arr, "left");
-                    divide(right_arr, "right");
-                }
+                }, 300*step);
+            }   
 
 
 
-                //Lets merge since length is less than 2
-                var x = y = z = 0;
-
-                if (left_arr.length <= 2 && right_arr.length <= 2) {
-                    console.log("Divide is now at single digits");
-                }
-
-                console.log(`Conquer left sub array: ${left_arr}, with right sub array: ${right_arr}`);
-
-                while (y < left_arr.length && z < right_arr.length) {
-    
-                    if (left_arr[y] < right_arr[z]) {
-                    array[x] = left_arr[y];
-                    y += 1;
-                    } else {
-                    array[x] = right_arr[z];
-                    z += 1;
-                    }
-                    x += 1;
-                }
-
-                while (y < left_arr.length) {
-                    array[x] = left_arr[y];
-                    x += 1;
-                    y += 1;
-                }
-
-                while (z < right_arr.length) {
-                    array[x] = right_arr[z];
-                    x += 1;
-                    z += 1;
-                }
-
+            html =''
+            for(let iter=0; iter<unsorted_list.length; iter++){
+                html=html+`
+                <div class="item" style="--item-height: ${unsorted_list[iter]/max*100}%">
+                    ${unsorted_list[iter]}
+                </div>
+                `
+                //set timeout
             }
-
+            table.innerHTML=html
+           
 
             console.log(`start merge sort on ${unsorted_list}`);
-            divide(unsorted_list, "start");
-            let html =''
-                for(let iter=0; iter<unsorted_list.length; iter++){
-                    html=html+`
-                    <div class="item" style="--item-height: ${unsorted_list[iter]/max*100}%">
-                        ${unsorted_list[iter]}
-                    </div>
-                    `
-                    //set timeout
-                }
-                setTimeout(() => {
-                    table.innerHTML=html
-                }, 1000*step);
-
+            mergeSort   (unsorted_list, 0, unsorted_list.length-1);
             console.log("");
             console.log(`done sorting: ${unsorted_list}`);
-            console.log(`Steps: ${unsorted_list}`);
-
+            step++
+            console.log(step)
+            
+           
         },  
         //EOF Merge sort
 
@@ -326,7 +323,6 @@
             
             quick_sort(unsorted_list, 0, unsorted_list.length - 1);
             console.log("array:"  + unsorted_list)
-                    
 
         }
         //EOF Quick Sort
