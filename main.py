@@ -15,7 +15,17 @@ def main():
         type = request.form.get('algorithm')
         count = int(request.form.get('count'))
         data = generate_arr(count)
-        return render_template("index.html", algorithm='algorithm', func=data, type=type, count=count)
+        legend=''
+        if(type=='selection'):
+            legend=[['complete','#fff'],['current','#000'],['complete','#fff']]
+        elif(type=='bubble'):
+            legend=[['complete','#fff'],['current','#000'],['complete','#fff']]
+        elif(type=='merge'):
+            legend=[['complete','#fff'],['current','#000'],['complete','#fff']]
+        elif(type=='quick'):
+            legend=[['complete','#fff'],['current','#000'],['complete','#fff']]
+
+        return render_template("index.html", algorithm='algorithm', func=data, type=type, count=count, legend=legend)
 
 def generate_arr(len):
     randArr = np.random.randint(20,size=len)

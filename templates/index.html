@@ -25,6 +25,12 @@
             </form>
         </div>
     </div>
+    <div class="legend">
+        <h2>Legend</h2>
+        {% for i in legend %}
+            <div class="item" style="--mainColor: {{i[1]}}"><p>{{i[0]}}</p></div>
+        {% endfor %}
+    </div>
     <h2>After sorting</h2>
     <div class="table" id="table"></div>
     <h2>Before sorting</h2>
@@ -155,6 +161,19 @@
 
                 }
             }
+            //Code below will update the table
+            let html =''
+            for(let iter=0; iter<data.length; iter++){
+                html=html+`
+                <div class="item complete" style="--item-height: ${data[iter]/max*100}%">
+                    ${data[iter]}
+                </div>
+                `
+                //set timeout
+            }
+            setTimeout(() => {
+                table.innerHTML=html
+            }, 60*step);
         },
 
         //Start of Merge sort
@@ -320,6 +339,7 @@
                 
             }
             quick_sort(unsorted_list, 0, unsorted_list.length - 1);
+             //Code below will update the table
             console.log("array:"  + unsorted_list)
 
         }
