@@ -11,10 +11,11 @@
     <div class="header">
         <div class="hero">
             <h1>Sorting Algorithms</h1>
-            <p>By default we will begin with a selection sort and generate a random array of 20 items to be sorted</p>
+            <p>By default we will begin with a selection sort and generate a random array of 30 items (0-29) to be sorted</p>
             <form method="post">
                 <select name="algorithm">
-                    <option value="{{type}}">{{type}}</option>
+                    <!-- Display first item as current algorithm -->
+                    <option value="{{type}}">{{ type }} Sort</option>
                     <option value="selection">Selection Sort</option>
                     <option value="bubble">Bubble Sort</option>
                     <option value="quick">Quick Sort</option>
@@ -25,43 +26,49 @@
             </form>
         </div>
     </div>
+    <!-- Legend for the current graph -->
     <div class="legend">
         <h2>Legend</h2>
         {% for i in legend %}
-            <div class="item" style="--mainColor: {{i[1]}}"><p>{{i[0]}}</p></div>
+            <div class="item" style="--mainColor: {{ i[1] }}"><p>{{i[0]}}</p></div>
         {% endfor %}
     </div>
+
+    <!-- First Graph will show the actual data being sorted -->
     <h2>After sorting</h2>
     <div class="table" id="table"></div>
+
+    <!-- Second Graph show the original data before sorting -->
     <h2>Before sorting</h2>
     <div class="table">
         {% for i in func[0] %}
-            <div class="item" style="--item-height: {{i/func[1]*100}}%">
-                {{i}}
+            <div class="item" style="--item-height: {{ i/func[1]*100 }}%">
+                {{ i }}
             </div>
         {% endfor %}
     </div>
     
+    <footer>&copy Franklin Kipkalis Barto 2022</footer>
 <script>
-    // We might need loops to pause on iterations
-    const wait = (ms) =>{ new Promise( resolve => setTimeout(resolve,ms))}
+    // We might need loops to pause on iterations code below may be used
+    // const wait = (ms) =>{ new Promise( resolve => setTimeout(resolve,ms))}
     
     //Let us select our table
     const table = document.getElementById('table')
     //Lets get our data from python
-    let max = `{{func[1]}}` // largest number in array
-    let data = `{{func[0]}}` // Full array
+    let max = `{{ func[1] }}` // largest number in array
+    let data = `{{ func[0] }}` // Full array
 
     //Parse our data into usable forms
-    max=parseInt(max)
-    data=JSON.parse(data)
+    max = parseInt(max)
+    data = JSON.parse(data)
 
 
     // All algorithms will stored within algo variable dict
     let algo = {
         //Start of Selection sort
         selectionSort: (data)=>{
-            let index=0
+            let index = 0
             let finalMinIndex
             let finalMin
             let currMin
@@ -89,12 +96,12 @@
                 //We have now iterated through all items for a target
                 if(finalMin!=undefined){
                     // console.log( data[finalMinIndex]," : ",data[index] )
-                    data[finalMinIndex]=data[iter]
-                    data[iter]=finalMin
+                    data[finalMinIndex] = data[iter]
+                    data[iter] = finalMin
                     // console.log(data)
 
-                    //Code below will update the table
-                    let html =''
+                    //Code below will update the table to show steps or iterations which best explains the sorting algorithm
+                    let html = ''
                     for(let iter1=0; iter1<data.length; iter1++){
                         html=html+`
                         <div class="item  ${iter1==iter?'active':''} ${iter1==finalMinIndex?'touch':''}" style="--item-height: ${data[iter1]/max*100}%">
@@ -110,22 +117,23 @@
 
 
                 }
+                // 
                 if(iter==length-1){
                     iter++
                     html =''
-                for(let iter1=0; iter1<data.length; iter1++){
-                    html=html+`
-                    <div class="item complete" style="--item-height: ${data[iter1]/max*100}%">
-                        ${data[iter1]}
-                        </div>
-                        `
+                    for(let iter1=0; iter1<data.length; iter1++){
+                        html=html+`
+                        <div class="item complete" style="--item-height: ${data[iter1]/max*100}%">
+                            ${data[iter1]}
+                            </div>
+                            `
+                    }
+                    
+                    //lets add a pause so we can let the users notice the iterations
+                    setTimeout(() => {
+                        table.innerHTML=html
+                    }, 200*iter);
                 }
-                
-                //lets add a pause os we can let the user intface notice the iterations
-                setTimeout(() => {
-                    table.innerHTML=html
-                }, 200*iter);
-            }
             }
         },
         //EOF Selection Sort
@@ -256,7 +264,7 @@
                     right_arr_index += 1  
                     final_index += 1  
                 }  
-                var html=''
+                var html = ''
                 step++
                 for(let iter=0; iter<array.length; iter++){
                     html=html+`
@@ -272,8 +280,8 @@
             }   
 
 
-
-            html =''
+            // Let us display the data before the first iteration
+            html = ''
             for(let iter=0; iter<unsorted_list.length; iter++){
                 html=html+`
                 <div class="item" style="--item-height: ${unsorted_list[iter]/max*100}%">
@@ -282,17 +290,15 @@
                 `
                 //set timeout
             }
-            table.innerHTML=html
+            table.innerHTML = html
            
 
-            console.log(`start merge sort on ${unsorted_list}`);
-            mergeSort   (unsorted_list, 0, unsorted_list.length-1);
-            console.log("");
-            console.log(`done sorting: ${unsorted_list}`);
+            // Start algo!
+            mergeSort(unsorted_list, 0, unsorted_list.length-1);
             step++
-            console.log(step)
 
-            html =''
+            // Show the last iteration
+            html = ''
             for(let iter=0; iter<unsorted_list.length; iter++){
                 html=html+`
                 <div class="item complete" style="--item-height: ${unsorted_list[iter]/max*100}%">
@@ -321,8 +327,8 @@
                 if(left < right){
                     step++
                     // Lets choose the first Item in the array as the pivot, To do lets store the pivot value and its index 
-                    var arrPivot=left
-                    var arrEnd=right
+                    var arrPivot = left
+                    var arrEnd = right
                     pivot = array[left]
                     index = left+1
                    
@@ -359,7 +365,9 @@
                     quick_sort(array, newPivot+1, right)
                 }
             }
-            let html =''
+
+            // Display iterations
+            let html = ''
             for(let iter=0; iter<unsorted_list.length; iter++){
                 html=html+`
                 <div class="item" style="--item-height: ${unsorted_list[iter]/max*100}%">
@@ -369,13 +377,15 @@
                 //set timeout
             }
             table.innerHTML=html
-            quick_sort(unsorted_list, 0, unsorted_list.length - 1);
-             //Code below will update the table
-            console.log("array:"  + unsorted_list)
 
+            // Start algo!
+            quick_sort(unsorted_list, 0, unsorted_list.length - 1);
+        
+            //Show final result
+        
             html =''
             for(let iter=0; iter<unsorted_list.length; iter++){
-                html=html+`
+                html = html+`
                 <div class="item complete" style="--item-height: ${unsorted_list[iter]/max*100}%">
                     ${unsorted_list[iter]}
                 </div>
@@ -391,43 +401,31 @@
     }
     //EOF algo
 
-function updateTable(i,data) {
-    let table = document.getElementById('table')
-    let html=''
-    
-    for(let iter1=0; iter1<data.length; iter1++){
-        html=html+`
-        <div class="item" style="--item-height: ${data[iter1]/max*100}%">
-            ${data[iter1]}
-            </div>
-            `
-    }
-    table.innerHTML=html
-        
-}
 
-function startAlgo(type){
-    if(type=='selection')
-    {
-        algo.selectionSort(data)
-    }
-    else if(type=='bubble')
-    {
-        algo.bubbleSort(data)
-    }  
-    else if(type=='merge')
-    {
-        algo.mergeSort(data)
-    }    
-    else if(type=='quick')
-    {
-        algo.quickSort(data)
+    // Initialization of the sorting function
+
+    function startAlgo(type){
+        if(type == 'selection')
+        {
+            algo.selectionSort(data)
+        }
+        else if(type == 'bubble')
+        {
+            algo.bubbleSort(data)
+        }  
+        else if(type == 'merge')
+        {
+            algo.mergeSort(data)
+        }    
+        else if(type == 'quick')
+        {
+            algo.quickSort(data)
+        }
+
+
     }
 
-
-}
-
-startAlgo(`{{type}}`)
+    startAlgo(`{{ type }}`)
     
 </script>
 </body>
