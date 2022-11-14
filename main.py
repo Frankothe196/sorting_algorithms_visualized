@@ -26,7 +26,7 @@ def main():
         elif(type=='merge'):
             legend=[['complete','goldenrod'],['Iterator','green']]
         elif(type=='quick'):
-            legend=[['complete','goldenrod'],['Pivot','yellow'],['Swap or iterator','red'],['inactive','white']]
+            legend=[['complete','goldenrod'],['Pivot','yellow'],['Swapped or iterator','red'],['inactive','white']]
 
         # Data shared in the response is the 1. A random array generated for sorting. 2. The number of items in the array. 2. The type of algorithm to run.  3. The legend for the selected algorithm.
         return render_template("index.html",  func=data, count=count, type=type, legend=legend)
