@@ -22,7 +22,7 @@ def main():
         if(type=='selection'):
             legend=[['complete','goldenrod'],['iterator','green'],['swapped','red']]
         elif(type=='bubble'):
-            legend=[['complete','goldenrod'],['iterator','green'],['spapped','red']]
+            legend=[['complete','goldenrod'],['iterator','green'],['swapped','red']]
         elif(type=='merge'):
             legend=[['complete','goldenrod'],['Iterator','green']]
         elif(type=='quick'):
