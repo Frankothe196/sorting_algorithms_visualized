@@ -2,6 +2,11 @@
 
 This is a public repository still in production so bear with me XD
 
+<img
+  src="app-screenshot.png"
+  alt="Alt text"
+  title="app screenshot"
+  style="display: inline-block; margin: 0 auto; max-width: 80%"/>
 
 # To run this project
 I would suggest creating a python [virtual environment](https://docs.python.org/3/library/venv.html#creating-virtual-environments) before running the following steps
